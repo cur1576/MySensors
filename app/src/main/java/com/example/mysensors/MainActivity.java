@@ -1,5 +1,6 @@
 package com.example.mysensors;
 
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     sensor.getVersion(),
                     Boolean.toString(isDynamic)));
         }
-        sensor = manager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sensor = manager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         if(sensor == null){
             Toast.makeText(this, "Kein Lichtsensor vorhanden", Toast.LENGTH_SHORT).show();
         }else {
@@ -64,9 +65,15 @@ public class MainActivity extends AppCompatActivity {
 //                            Log.d(TAG, "onSensorChanged: " + i + ": " + f);
 //                            i++;
 //                        }
-                        float light = event.values[0];
-                        tv.append(Float.toString(light)+"\n");
-                        scrollView.fullScroll(View.FOCUS_DOWN);
+//                        Log.d(TAG, "onSensorChanged: " + event);
+//                        float light = event.values[0];
+//                        tv.append(Float.toString(light)+"\n");
+//                        scrollView.fullScroll(View.FOCUS_DOWN);
+                        if(event.values[0]<sensor.getMaximumRange()){
+                            tv.setBackgroundColor(Color.RED);
+                        }else {
+                            tv.setBackgroundColor(Color.WHITE);
+                        }
                     }
 
                 }
