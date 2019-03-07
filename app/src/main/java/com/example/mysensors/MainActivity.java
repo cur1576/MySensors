@@ -9,6 +9,8 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +24,13 @@ public class MainActivity extends AppCompatActivity {
     private Sensor sensor;
     private SensorEventListener listener;
     private SensorEventListener2 listener2;
+    private ScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv = findViewById(R.id.tv);
+        scrollView = findViewById(R.id.scroll);
 
     }
 
@@ -55,8 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
                     if(event.values.length>0){
-                        for(float f : event.values)
-                        Log.d(TAG, "onSensorChanged: " + f);
+//                        int i = 1;
+//                        for(float f : event.values) {
+//                            Log.d(TAG, "onSensorChanged: " + i + ": " + f);
+//                            i++;
+//                        }
+                        float light = event.values[0];
+                        tv.append(Float.toString(light)+"\n");
+                        scrollView.fullScroll(View.FOCUS_DOWN);
                     }
 
                 }
@@ -66,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
+            manager.registerListener(listener,sensor,SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        manager.unregisterListener(listener);
     }
 }
