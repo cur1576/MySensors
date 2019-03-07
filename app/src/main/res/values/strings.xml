@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MySensors</string>
-    <string name="template">%1$s (Hersteller: %2$s, Version: %3$d, dynamisch: %4$s)\n</string>
+    <string name="template">%1$s (Hersteller: %2$s, ReportingMode: %3$d, dynamisch: %4$s)\n</string>
 </resources>
