@@ -46,10 +46,15 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 isDynamic=sensor.isDynamicSensor();
             }
+            int i = -1;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                i = sensor.getReportingMode();
+            }
             tv.append(getString(R.string.template,
                     sensor.getName(),
                     sensor.getVendor(),
-                    sensor.getVersion(),
+                    i,
                     Boolean.toString(isDynamic)));
         }
         sensor = manager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //                        scrollView.fullScroll(View.FOCUS_DOWN);
                         if(event.values[0]<sensor.getMaximumRange()){
                             tv.setBackgroundColor(Color.RED);
+                            Log.d(TAG, "onSensorChanged: " + sensor.getMaximumRange());
                         }else {
                             tv.setBackgroundColor(Color.WHITE);
                         }
